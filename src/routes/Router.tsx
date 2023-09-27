@@ -2,11 +2,13 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import App from '../components/App';
 
+import Index from './Index';
+
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
-    children: [],
+    children: [{ index: true, element: <Index /> }],
   },
 ]);
 
