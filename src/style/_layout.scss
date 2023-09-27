@@ -1,5 +1,17 @@
 .application {
+    --header-height: 60px;
+
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+}
+
+header {
+    position: fixed;
+    width: 100%;
+    height: var(--header-height);
+    padding: 10px;
+    background-color: var(--bs-primary);
+    list-style: none;
+    z-index: 99;
 }
