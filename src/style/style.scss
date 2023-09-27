@@ -2,3 +2,8 @@
 @import "bootstrap/scss/bootstrap-reboot.scss";
 
 @import "layout.scss";
+
+a {
+    text-decoration: none;
+    color: inherit;
+}

@@ -1,12 +1,14 @@
+import { Link, NavLink } from 'react-router-dom';
+
 const Header = () => {
   return (
     <header className="w-100 d-flex justify-content-between align-items-center text-light">
-      <a href="/" className="fs-2 text-light text-decoration-none">
+      <Link to="/" className="fs-2">
         Punk Beer
-      </a>
-      <nav className="d-flex align-items-center gap-4 text-decoration-none fs-6">
-        <li>Home</li>
-        <li>Favourites</li>
+      </Link>
+      <nav className="d-flex align-items-center gap-4 fs-6">
+        <NavLink to="/">Home</NavLink>
+        <NavLink to="/favourites">Favourites</NavLink>
       </nav>
     </header>
   );
