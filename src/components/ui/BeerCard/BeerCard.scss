@@ -1,0 +1,17 @@
+.beer-card {
+    height: 200px;
+    max-height: 200px;
+    width: 350px;
+    max-width: 350px;
+
+    .star-container {
+        cursor: pointer;
+    }
+
+    p {
+        display: -webkit-box;
+        -webkit-line-clamp: 5;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+}
