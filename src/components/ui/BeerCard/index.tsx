@@ -10,13 +10,19 @@ interface Props {
   starred?: boolean;
   beer: Beer;
   onStarClick?: React.MouseEventHandler<HTMLSpanElement>;
+  onBeerImageClick?: React.MouseEventHandler<HTMLImageElement>;
 }
 
-const BeerCard: FC<Props> = ({ className, starred, beer, onStarClick }) => {
+const BeerCard: FC<Props> = ({ className, starred, beer, onStarClick, onBeerImageClick }) => {
   return (
     <div className={`beer-card p-2 border rounded-4 row overflow-hidden ${className}`}>
       <div className="mh-100 col-4 py-4 px-3 d-flex flex-column justify-content-center">
-        <img src={beer.imageUrl} alt="beer" className="object-fit-contain mw-100 mh-100 h-auto" />
+        <img
+          src={beer.imageUrl}
+          alt="beer"
+          onClick={onBeerImageClick}
+          className="object-fit-contain mw-100 mh-100 h-auto"
+        />
       </div>
       <div className="col-8 h-100 my-2 d-flex flex-column">
         <span onClick={onStarClick} className="star-container d-flex align-self-end">
