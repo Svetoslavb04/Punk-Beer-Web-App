@@ -7,7 +7,7 @@ describe('useBeers', () => {
   afterAll(() => server.close());
 
   it('should fetch beers at first page', async () => {
-    const { result } = renderHook(() => useBeers('', 1, 3));
+    const { result } = renderHook(() => useBeers(1, 3));
 
     await waitFor(() => {
       expect(result.current).toHaveLength(3);
@@ -15,7 +15,7 @@ describe('useBeers', () => {
   });
 
   it('should fetch beers at first page whose name matches "b" ', async () => {
-    const { result } = renderHook(() => useBeers('b', 1, 3));
+    const { result } = renderHook(() => useBeers(1, 3, 'b'));
 
     await waitFor(() => {
       expect(result.current).toHaveLength(3);
@@ -24,7 +24,7 @@ describe('useBeers', () => {
   });
 
   it('should fetch beers at first page whose name matches "b" but only with id - 1', async () => {
-    const { result } = renderHook(() => useBeers('b', 1, 3, [1]));
+    const { result } = renderHook(() => useBeers(1, 3, 'b', [1]));
 
     await waitFor(() => {
       expect(result.current).toHaveLength(1);
