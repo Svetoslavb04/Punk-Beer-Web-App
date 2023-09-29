@@ -14,6 +14,7 @@ export default defineConfig({
     css: true,
     coverage: {
       enabled: true,
+      exclude: ['**/mocks/*.ts'],
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
     },
