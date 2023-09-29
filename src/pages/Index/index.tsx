@@ -7,6 +7,7 @@ import { useSearchParams } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import FormControl from 'react-bootstrap/FormControl';
 import InputGroup from 'react-bootstrap/InputGroup';
+import Pagination from 'react-bootstrap/Pagination';
 
 import BeersList from './components/BeersList';
 
@@ -16,6 +17,8 @@ const Index = () => {
     per_page: '6',
   });
 
+  const currentPage = Number(searchParams.get('page')) || 1;
+
   const [beerName, setBeerName] = useState(searchParams.get('beerName') || '');
 
   const handleBeerSearchChange = (e: ChangeEvent<HTMLInputElement>) => setBeerName(e.target.value);
@@ -23,7 +26,13 @@ const Index = () => {
   const handleBeerSearch = () => {
     setSearchParams(prev => {
       prev.set('beerName', beerName);
+      return prev;
+    });
+  };
 
+  const handlePagination = (page: number) => {
+    setSearchParams(prev => {
+      prev.set('page', page.toString());
       return prev;
     });
   };
@@ -51,6 +60,16 @@ const Index = () => {
             page={Number(searchParams.get('page')) || 1}
             perPage={Number(searchParams.get('perPage')) || 6}
           />
+        </div>
+        <div id="beers-pagination" className="my-4 mx-auto">
+          <Pagination>
+            <Pagination.First onClick={() => handlePagination(1)} />
+            <Pagination.Prev
+              onClick={() => handlePagination(currentPage > 1 ? currentPage - 1 : 1)}
+            />
+            <Pagination.Item active>{currentPage}</Pagination.Item>
+            <Pagination.Next onClick={() => handlePagination(currentPage + 1)} />
+          </Pagination>
         </div>
       </div>
     </div>
