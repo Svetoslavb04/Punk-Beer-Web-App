@@ -46,7 +46,7 @@ export const beers = [
 
 export const handlers = [
   rest.get('https://api.punkapi.com/v2/beers', (req, res, ctx) => {
-    const search = req.url.searchParams.get('search');
+    const search = req.url.searchParams.get('beer_name');
     const page = Number(req.url.searchParams.get('page')) || 1;
     const perPage = Number(req.url.searchParams.get('per_page')) || beers.length;
     const ids =
@@ -58,7 +58,7 @@ export const handlers = [
     let result = beers;
 
     if (search) {
-      result = beers.filter(b => b.name.toLocaleLowerCase().includes('b'));
+      result = beers.filter(b => b.name.toLocaleLowerCase().includes(search));
     }
 
     if (ids.length > 0) {

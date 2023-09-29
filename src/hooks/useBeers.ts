@@ -10,8 +10,7 @@ export function useBeers(page: number, perPage: number, search: string = '', ids
   const firstRender = useRef(true);
 
   useEffect(() => {
-    const beerNameQuery =
-      search.length > 0 && ids.length === 0 ? `beer_name=${search.replace(/ /g, '_')}&` : '';
+    const beerNameQuery = search.length > 0 ? `beer_name=${search.replace(/ /g, '_')}&` : '';
 
     const idsQuery = ids.length > 0 ? `&ids=${ids.join('|')}` : '';
 
