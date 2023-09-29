@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Beer } from '../interfaces/Beer';
 import { PunkAPIBeer } from '../interfaces/PunkAPIBeer';
 
-export function useBeers(search: string, page: number, perPage: number, ids: number[] = []) {
+export function useBeers(page: number, perPage: number, search: string = '', ids: number[] = []) {
   const [beers, setBeers] = useState<Beer[]>([]);
 
   const abortController = useMemo(() => new AbortController(), [search, page, perPage]);
