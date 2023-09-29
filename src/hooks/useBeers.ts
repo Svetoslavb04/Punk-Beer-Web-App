@@ -34,7 +34,8 @@ export function useBeers(search: string, page: number, perPage: number, ids: num
         });
 
         setBeers(beers);
-      });
+      })
+      .catch(() => {});
 
     return () => {
       if (!firstRender.current) {
