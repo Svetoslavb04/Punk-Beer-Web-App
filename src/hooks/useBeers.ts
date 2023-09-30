@@ -2,8 +2,14 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Beer } from '../interfaces/Beer';
 import { PunkAPIBeer } from '../interfaces/PunkAPIBeer';
 
-export function useBeers(page: number, perPage: number, search: string = '', ids: number[] = []) {
+export function useBeers(
+  page: number,
+  perPage: number,
+  search: string = '',
+  ids: number[] = [],
+): [Beer[], PunkAPIBeer[]] {
   const [beers, setBeers] = useState<Beer[]>([]);
+  const [rawBeers, setRawBeers] = useState<PunkAPIBeer[]>([]);
 
   const abortController = useMemo(() => new AbortController(), [search, page, perPage]);
 
@@ -33,6 +39,7 @@ export function useBeers(page: number, perPage: number, search: string = '', ids
         });
 
         setBeers(beers);
+        setRawBeers(data);
       })
       .catch(() => {});
 
@@ -44,5 +51,5 @@ export function useBeers(page: number, perPage: number, search: string = '', ids
     };
   }, [search, page, perPage, ids, abortController]);
 
-  return beers;
+  return [beers, rawBeers];
 }

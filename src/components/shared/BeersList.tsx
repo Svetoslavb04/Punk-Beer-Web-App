@@ -16,7 +16,7 @@ interface Props {
 }
 
 const BeersList: FC<Props> = ({ search, page, perPage, ids }) => {
-  const beers = useBeers(page, perPage, search, ids);
+  const [beers] = useBeers(page, perPage, search, ids);
 
   const [favourites, setFavourites] = useLocalStorage<number[]>('favouriteBeers', []);
 

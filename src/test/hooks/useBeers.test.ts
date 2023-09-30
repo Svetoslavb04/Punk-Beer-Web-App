@@ -10,7 +10,7 @@ describe('useBeers', () => {
     const { result } = renderHook(() => useBeers(1, 3));
 
     await waitFor(() => {
-      expect(result.current).toHaveLength(3);
+      expect(result.current[0]).toHaveLength(3);
     });
   });
 
@@ -18,8 +18,8 @@ describe('useBeers', () => {
     const { result } = renderHook(() => useBeers(1, 3, 'b'));
 
     await waitFor(() => {
-      expect(result.current).toHaveLength(3);
-      expect(result.current.every(b => b.name.toLocaleLowerCase().includes('b'))).toBe(true);
+      expect(result.current[0]).toHaveLength(3);
+      expect(result.current[0].every(b => b.name.toLocaleLowerCase().includes('b'))).toBe(true);
     });
   });
 
@@ -27,9 +27,9 @@ describe('useBeers', () => {
     const { result } = renderHook(() => useBeers(1, 3, 'b', [1]));
 
     await waitFor(() => {
-      expect(result.current).toHaveLength(1);
-      expect(result.current[0].id).toBe(1);
-      expect(result.current.every(b => b.name.toLocaleLowerCase().includes('b'))).toBe(true);
+      expect(result.current[0]).toHaveLength(1);
+      expect(result.current[0][0].id).toBe(1);
+      expect(result.current[0].every(b => b.name.toLocaleLowerCase().includes('b'))).toBe(true);
     });
   });
 });
