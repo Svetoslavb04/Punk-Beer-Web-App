@@ -49,7 +49,7 @@ const Index = () => {
 
   return (
     <div className="container mt-5 flex-grow-1 d-flex flex-column">
-      <div id="search-beer-container" className="my-4 mx-auto">
+      <div id="search-beer-container" className="my-3 mx-auto">
         <InputGroup>
           <FormControl
             ref={beerNameInput}
