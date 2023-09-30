@@ -5,25 +5,10 @@ import { server } from '../mocks/server.ts';
 
 beforeAll(() => {
   server.listen();
-
-  window.HTMLMediaElement.prototype.play = () => {
-    Object.defineProperty(window.HTMLMediaElement.prototype, 'paused', {
-      value: false,
-    });
-    return Promise.resolve();
-  };
-  window.HTMLMediaElement.prototype.pause = () => {
-    Object.defineProperty(window.HTMLMediaElement.prototype, 'paused', {
-      value: true,
-    });
-  };
 });
 
 afterAll(() => {
   server.close();
-
-  window.HTMLMediaElement.prototype.play = () => Promise.resolve();
-  window.HTMLMediaElement.prototype.pause = () => {};
 });
 
 describe('BeersList', () => {
