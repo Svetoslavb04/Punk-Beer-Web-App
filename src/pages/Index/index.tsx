@@ -71,7 +71,6 @@ const Index = () => {
           search={searchParams.get('beerName') || ''}
           page={Number(searchParams.get('page')) || 1}
           perPage={Number(searchParams.get('perPage')) || 6}
-          ids={[]}
         />
       </div>
       <div id="beers-pagination" className="my-4 mx-auto">
