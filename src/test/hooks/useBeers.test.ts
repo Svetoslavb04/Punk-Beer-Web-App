@@ -6,6 +6,14 @@ describe('useBeers', () => {
   beforeAll(() => server.listen());
   afterAll(() => server.close());
 
+  it('should fetch all beerse', async () => {
+    const { result } = renderHook(() => useBeers());
+
+    await waitFor(() => {
+      expect(result.current[0]).toHaveLength(6);
+    });
+  });
+
   it('should fetch beers at first page', async () => {
     const { result } = renderHook(() => useBeers(1, 3));
 

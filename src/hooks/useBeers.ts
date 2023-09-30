@@ -3,8 +3,8 @@ import { Beer } from '../interfaces/Beer';
 import { PunkAPIBeer } from '../interfaces/PunkAPIBeer';
 
 export function useBeers(
-  page: number,
-  perPage: number,
+  page?: number,
+  perPage?: number,
   search: string = '',
   ids: number[] = [],
 ): [Beer[], PunkAPIBeer[]] {
@@ -20,7 +20,13 @@ export function useBeers(
 
     const idsQuery = ids.length > 0 ? `&ids=${ids.join('|')}` : '';
 
-    const query = `${beerNameQuery}page=${page}&per_page=${perPage}${idsQuery}`;
+    let pageQuery = '';
+
+    if (page && perPage) {
+      pageQuery = `&page=${page}&per_page=${perPage}`;
+    }
+
+    const query = `${beerNameQuery}${pageQuery}${idsQuery}`;
 
     fetch(`https://api.punkapi.com/v2/beers?${query}`, {
       signal: abortController.signal,
