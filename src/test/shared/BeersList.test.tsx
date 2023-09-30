@@ -1,4 +1,5 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import BeersList from '../../components/shared/BeersList.tsx';
 import { server } from '../mocks/server.ts';
@@ -42,5 +43,20 @@ describe('BeersList', () => {
     render(<BeersList page={1} perPage={3} search="pilsen" />);
 
     await waitFor(() => expect(screen.queryAllByRole('img')).toHaveLength(1));
+  });
+
+  it('should star and unstar a beer', async () => {
+    render(<BeersList page={1} perPage={6} />);
+
+    await waitFor(() => expect(screen.queryAllByRole('img')).toHaveLength(6));
+
+    const starIcons = screen.getAllByTitle('star-icon');
+    fireEvent.click(starIcons[0]);
+
+    expect(screen.getAllByTitle('star-icon')).toHaveLength(5);
+
+    fireEvent.click(screen.getByTitle('star-fill-icon'));
+
+    expect(screen.getAllByTitle('star-icon')).toHaveLength(6);
   });
 });

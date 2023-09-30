@@ -1,9 +1,12 @@
 import { FC } from 'react';
 
 import { useBeers } from '../../hooks/useBeers';
+import { useAudio } from '../../hooks/useAudio';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
+
+import { Beer } from '../../interfaces/Beer';
 
 import BeerCard from '../../components/ui/BeerCard';
-import { useAudio } from '../../hooks/useAudio';
 
 interface Props {
   search?: string;
@@ -15,14 +18,29 @@ interface Props {
 const BeersList: FC<Props> = ({ search, page, perPage, ids }) => {
   const beers = useBeers(page, perPage, search, ids);
 
+  const [favourites, setFavourites] = useLocalStorage<number[]>('favouriteBeers', []);
+
   const { play } = useAudio('assets/beer-bottle-opening.mp3');
+
+  const handleStarIconClick = (beer: Beer) => {
+    if (favourites.includes(beer.id)) {
+      setFavourites(prev => prev.filter(id => beer.id != id));
+    } else {
+      setFavourites(prev => [...prev, beer.id]);
+    }
+  };
 
   return (
     <>
       {beers.length > 0 ? (
         beers.map(beer => (
           <div key={beer.id} className="col-md-6 col-xl-4 d-flex justify-content-center">
-            <BeerCard beer={beer} onBeerImageClick={play} />
+            <BeerCard
+              beer={beer}
+              starred={favourites.includes(beer.id)}
+              onBeerImageClick={play}
+              onStarClick={handleStarIconClick}
+            />
           </div>
         ))
       ) : (
