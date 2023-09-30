@@ -10,6 +10,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Pagination from 'react-bootstrap/Pagination';
 
 import BeersList from '../../components/shared/BeersList';
+import GetRandomBeer from './components/GetRandomBeer';
 
 const Index = () => {
   const [searchParams, setSearchParams] = useSearchParams({
@@ -48,7 +49,10 @@ const Index = () => {
   const currentPage = Number(searchParams.get('page')) || 1;
 
   return (
-    <div className="container mt-5 flex-grow-1 d-flex flex-column">
+    <div className="container mt-4 flex-grow-1 d-flex flex-column">
+      <div className="mx-auto text-center">
+        <GetRandomBeer />
+      </div>
       <div id="search-beer-container" className="my-3 mx-auto">
         <InputGroup>
           <FormControl
@@ -70,7 +74,7 @@ const Index = () => {
         />
       </div>
       <div id="beers-pagination" className="my-4 mx-auto">
-        <Pagination>
+        <Pagination className="mb-0">
           <Pagination.First onClick={() => handlePagination(1)} />
           <Pagination.Prev
             onClick={() => handlePagination(currentPage > 1 ? currentPage - 1 : 1)}
