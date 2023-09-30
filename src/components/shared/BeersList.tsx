@@ -10,8 +10,8 @@ import BeerCard from '../../components/ui/BeerCard';
 
 interface Props {
   search?: string;
-  page: number;
-  perPage: number;
+  page?: number;
+  perPage?: number;
   ids?: number[];
 }
 
