@@ -70,4 +70,7 @@ export const handlers = [
 
     return res(ctx.json(paginatedBeers));
   }),
+  rest.get('https://api.punkapi.com/v2/beers/random', (req, res, ctx) => {
+    return res(ctx.json([beers[Math.floor(Math.random() * beers.length)]]));
+  }),
 ];
