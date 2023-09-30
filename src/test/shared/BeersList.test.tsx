@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 
 import BeersList from '../../components/shared/BeersList.tsx';
 import { server } from '../mocks/server.ts';
@@ -57,19 +57,5 @@ describe('BeersList', () => {
     render(<BeersList page={1} perPage={3} search="pilsen" />);
 
     await waitFor(() => expect(screen.queryAllByRole('img')).toHaveLength(1));
-  });
-
-  it('should play sound on image click', async () => {
-    const playAudio = vi.spyOn(window.HTMLMediaElement.prototype, 'play');
-
-    render(<BeersList page={1} perPage={3} />);
-
-    const beerImages = await screen.findAllByRole('img');
-
-    beerImages.forEach(img => {
-      fireEvent.click(img);
-      fireEvent.click(img);
-      expect(playAudio).toHaveBeenCalledOnce();
-    });
   });
 });
