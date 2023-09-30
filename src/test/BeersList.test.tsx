@@ -1,6 +1,6 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
-import BeersList from '../pages/Index/components/BeersList.tsx';
+import BeersList from '../components/shared/BeersList.tsx';
 import { server } from './mocks/server.ts';
 
 beforeAll(() => {

@@ -1,8 +1,8 @@
 import { FC, useEffect, useMemo } from 'react';
 
-import { useBeers } from '../../../hooks/useBeers';
+import { useBeers } from '../../hooks/useBeers';
 
-import BeerCard from '../../../components/ui/BeerCard';
+import BeerCard from '../../components/ui/BeerCard';
 
 interface Props {
   search?: string;

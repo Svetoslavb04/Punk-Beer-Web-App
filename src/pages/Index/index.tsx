@@ -9,7 +9,7 @@ import FormControl from 'react-bootstrap/FormControl';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Pagination from 'react-bootstrap/Pagination';
 
-import BeersList from './components/BeersList';
+import BeersList from '../../components/shared/BeersList';
 
 const Index = () => {
   const [searchParams, setSearchParams] = useSearchParams({
