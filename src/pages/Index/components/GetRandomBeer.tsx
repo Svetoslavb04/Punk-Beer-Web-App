@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -19,9 +19,9 @@ const GetRandomBeer = () => {
 
   const { play } = useAudio('assets/beer-bottle-opening.mp3');
 
-  const abortController = useMemo(() => new AbortController(), [showBeerModal, beer]);
-
   useEffect(() => {
+    const abortController = new AbortController();
+
     async function fetchBeer() {
       if (showBeerModal) {
         try {
@@ -37,9 +37,15 @@ const GetRandomBeer = () => {
             imageUrl: punkBeer.image_url,
           });
         } catch (error) {}
+      } else {
+        abortController.abort();
       }
     }
     fetchBeer();
+
+    return () => {
+      abortController.abort();
+    };
   }, [showBeerModal]);
 
   const handleGetRandomBeer = async () => {
@@ -47,7 +53,6 @@ const GetRandomBeer = () => {
   };
 
   const handleModalHide = () => {
-    abortController.abort();
     setShowBeerModal(false);
     setBeer(null);
   };

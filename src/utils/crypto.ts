@@ -1,4 +1,4 @@
-export const hash = (val: any) =>
+export const hash = (val: unknown) =>
   crypto.subtle.digest('SHA-256', new TextEncoder().encode(JSON.stringify(val))).then(h => {
     const hexes = [];
     const view = new DataView(h);
@@ -7,7 +7,7 @@ export const hash = (val: any) =>
     return hexes.join('');
   });
 
-export const hashAll = async (val: any[]) => {
+export const hashAll = async (val: unknown[]) => {
   const allHashesPromises = val.map(async e => await hash(e));
 
   return Promise.all(allHashesPromises);

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Beer } from '../interfaces/Beer';
 import { PunkAPIBeer } from '../interfaces/PunkAPIBeer';
 
@@ -10,10 +10,6 @@ export function useBeers(
 ): [Beer[], PunkAPIBeer[]] {
   const [beers, setBeers] = useState<Beer[]>([]);
   const [rawBeers, setRawBeers] = useState<PunkAPIBeer[]>([]);
-
-  const abortController = useMemo(() => new AbortController(), [search, page, perPage]);
-
-  const firstRender = useRef(true);
 
   useEffect(() => {
     const beerNameQuery = search.length > 0 ? `beer_name=${search.replace(/ /g, '_')}&` : '';
@@ -27,6 +23,8 @@ export function useBeers(
     }
 
     const query = `${beerNameQuery}${pageQuery}${idsQuery}`;
+
+    const abortController = new AbortController();
 
     fetch(`https://api.punkapi.com/v2/beers?${query}`, {
       signal: abortController.signal,
@@ -50,12 +48,9 @@ export function useBeers(
       .catch(() => {});
 
     return () => {
-      if (!firstRender.current) {
-        abortController?.abort();
-      }
-      firstRender.current = false;
+      abortController.abort();
     };
-  }, [search, page, perPage, ids, abortController]);
+  }, [search, page, perPage, ids]);
 
   return [beers, rawBeers];
 }

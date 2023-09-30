@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react';
 
 export function useAudio(audioPath: string) {
-  const audio = useMemo(() => new Audio(audioPath), []);
+  const audio = useMemo(() => new Audio(audioPath), [audioPath]);
 
   useEffect(() => {
     return () => {

@@ -1,4 +1,4 @@
-import { renderHook, screen } from '@testing-library/react';
+import { renderHook } from '@testing-library/react';
 import { server } from '../mocks/server';
 import { useAudio } from '../../hooks/useAudio';
 

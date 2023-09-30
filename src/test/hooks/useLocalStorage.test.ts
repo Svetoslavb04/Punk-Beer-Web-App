@@ -34,7 +34,7 @@ describe('useLocalStorage', () => {
   it('should set the value to the initial on error', async () => {
     vi.spyOn(Storage.prototype, 'getItem').mockResolvedValueOnce('1,2');
 
-    const { result } = renderHook(() => useLocalStorage<any>('bestObject', initialState));
+    const { result } = renderHook(() => useLocalStorage('bestObject', initialState));
 
     expect(result.current[0]).toEqual(initialState);
   });
