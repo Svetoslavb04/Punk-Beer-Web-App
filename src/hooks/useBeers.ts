@@ -6,7 +6,7 @@ export function useBeers(
   page?: number,
   perPage?: number,
   search: string = '',
-  ids: number[] = [],
+  ids?: number[],
 ): [Beer[], PunkAPIBeer[]] {
   const [beers, setBeers] = useState<Beer[]>([]);
   const [rawBeers, setRawBeers] = useState<PunkAPIBeer[]>([]);
@@ -14,7 +14,7 @@ export function useBeers(
   useEffect(() => {
     const beerNameQuery = search.length > 0 ? `beer_name=${search.replace(/ /g, '_')}&` : '';
 
-    const idsQuery = ids.length > 0 ? `&ids=${ids.join('|')}` : '';
+    const idsQuery = ids ? (ids.length > 0 ? `&ids=${ids.join('|')}` : 'ids=') : '';
 
     let pageQuery = '';
 

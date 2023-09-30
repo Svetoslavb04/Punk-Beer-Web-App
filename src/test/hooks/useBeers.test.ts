@@ -40,4 +40,12 @@ describe('useBeers', () => {
       expect(result.current[0].every(b => b.name.toLocaleLowerCase().includes('b'))).toBe(true);
     });
   });
+
+  it('should fetch beers for ids array', async () => {
+    const { result } = renderHook(() => useBeers(undefined, undefined, '', []));
+
+    await waitFor(() => {
+      expect(result.current[0]).toHaveLength(0);
+    });
+  });
 });
