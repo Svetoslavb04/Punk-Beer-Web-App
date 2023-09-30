@@ -26,11 +26,15 @@ const BeersList: FC<Props> = ({ search, page, perPage, ids }) => {
 
   return (
     <>
-      {beers.map(beer => (
-        <div key={beer.id} className="col-md-6 col-xl-4 d-flex justify-content-center">
-          <BeerCard beer={beer} onBeerImageClick={handleBeerImageClick} />
-        </div>
-      ))}
+      {beers.length > 0 ? (
+        beers.map(beer => (
+          <div key={beer.id} className="col-md-6 col-xl-4 d-flex justify-content-center">
+            <BeerCard beer={beer} onBeerImageClick={handleBeerImageClick} />
+          </div>
+        ))
+      ) : (
+        <p className="fs-3 my-4 text-center">No beers found...</p>
+      )}
     </>
   );
 };
