@@ -1,6 +1,6 @@
 import './Index.scss';
 
-import { ChangeEvent, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { useSearchParams } from 'react-router-dom';
 
@@ -17,15 +17,23 @@ const Index = () => {
     per_page: '6',
   });
 
-  const currentPage = Number(searchParams.get('page')) || 1;
+  const beerNameInput = useRef<HTMLInputElement>(null);
 
-  const [beerName, setBeerName] = useState(searchParams.get('beerName') || '');
-
-  const handleBeerSearchChange = (e: ChangeEvent<HTMLInputElement>) => setBeerName(e.target.value);
+  useEffect(() => {
+    if (beerNameInput.current) {
+      beerNameInput.current.value = searchParams.get('beerName') || '';
+    }
+  }, [searchParams]);
 
   const handleBeerSearch = () => {
     setSearchParams(prev => {
-      prev.set('beerName', beerName);
+      const beerName = beerNameInput.current?.value || '';
+
+      if (beerName.length > 0) {
+        prev.set('beerName', beerName);
+      } else {
+        prev.delete('beerName');
+      }
       return prev;
     });
   };
@@ -37,17 +45,18 @@ const Index = () => {
     });
   };
 
+  const currentPage = Number(searchParams.get('page')) || 1;
+
   return (
     <div>
       <div className="container mt-5">
         <div id="search-beer-container" className="my-4 mx-auto">
           <InputGroup>
             <FormControl
+              ref={beerNameInput}
               placeholder="Search for beer..."
               aria-label="Search for beer..."
               aria-describedby="Search for beer"
-              value={beerName}
-              onChange={handleBeerSearchChange}
             />
             <Button variant="outline-secondary" onClick={handleBeerSearch}>
               Search
