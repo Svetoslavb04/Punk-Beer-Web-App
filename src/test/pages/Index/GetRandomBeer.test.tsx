@@ -60,4 +60,26 @@ describe('GetRandomBeer', () => {
 
     await waitFor(() => expect(screen.queryByRole('img')).not.toBeInTheDocument());
   });
+
+  it('should star and unstar a beer', async () => {
+    render(<GetRandomBeer />);
+
+    const openModalButton = screen.getByRole('button');
+
+    fireEvent.click(openModalButton);
+
+    await waitFor(() => expect(screen.getByRole('img')).toBeVisible());
+
+    const starIcon = screen.getByTitle('star-icon');
+
+    expect(screen.getByTitle('star-icon')).toBeInTheDocument();
+
+    fireEvent.click(starIcon);
+
+    expect(screen.getByTitle('star-fill-icon')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByTitle('star-fill-icon'));
+
+    expect(screen.getByTitle('star-icon')).toBeInTheDocument();
+  });
 });

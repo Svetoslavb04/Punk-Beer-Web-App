@@ -6,11 +6,14 @@ import Modal from 'react-bootstrap/Modal';
 import { PunkAPIBeer } from '../../../interfaces/PunkAPIBeer';
 import { Beer } from '../../../interfaces/Beer';
 
-import BeerCard from '../../../components/ui/BeerCard';
 import { useAudio } from '../../../hooks/useAudio';
+import { useLocalStorage } from '../../../hooks/useLocalStorage';
+
+import BeerCard from '../../../components/ui/BeerCard';
 
 const GetRandomBeer = () => {
   const [showBeerModal, setShowBeerModal] = useState(false);
+  const [favourites, setFavourites] = useLocalStorage<number[]>('favouriteBeers', []);
 
   const [beer, setBeer] = useState<Beer | null>(null);
 
@@ -49,8 +52,13 @@ const GetRandomBeer = () => {
     setBeer(null);
   };
 
-  const handleStarClick = () => {};
-
+  const handleStarClick = (beer: Beer) => {
+    if (favourites.includes(beer.id)) {
+      setFavourites(prev => prev.filter(id => beer.id != id));
+    } else {
+      setFavourites(prev => [...prev, beer.id]);
+    }
+  };
   return (
     <>
       <Button onClick={handleGetRandomBeer}>Get random Beer</Button>
@@ -60,7 +68,12 @@ const GetRandomBeer = () => {
         </Modal.Header>
         <Modal.Body className="d-flex justify-content-center">
           {beer ? (
-            <BeerCard beer={beer} onBeerImageClick={play} onStarClick={handleStarClick} />
+            <BeerCard
+              beer={beer}
+              starred={favourites.includes(beer.id)}
+              onBeerImageClick={play}
+              onStarClick={handleStarClick}
+            />
           ) : (
             <p>Loading...</p>
           )}
