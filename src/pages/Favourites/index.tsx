@@ -20,7 +20,6 @@ const Favourites = () => {
 
   const [changedBeers, setChangedBeers] = useState<Beer[]>([]);
   const [unchangedBeers, setUnchangedBeers] = useState<Beer[]>([]);
-  console.log('render');
 
   useEffect(() => {
     async function getCurrentHashes() {
