@@ -46,7 +46,7 @@ const Index = () => {
     });
   };
 
-  const currentPage = Number(searchParams.get('page')) || 1;
+  const currentPage = Number(searchParams.get('page'));
 
   return (
     <div className="container mt-4 flex-grow-1 d-flex flex-column">
@@ -69,18 +69,24 @@ const Index = () => {
       <div className="row gy-4 gx-5 flex-grow-1 align-items-center">
         <BeersList
           search={searchParams.get('beerName') || ''}
-          page={Number(searchParams.get('page')) || 1}
-          perPage={Number(searchParams.get('perPage')) || 6}
+          page={Number(searchParams.get('page'))}
+          perPage={Number(searchParams.get('perPage'))}
         />
       </div>
       <div id="beers-pagination" className="my-4 mx-auto">
         <Pagination className="mb-0">
-          <Pagination.First onClick={() => handlePagination(1)} />
+          <Pagination.First onClick={() => handlePagination(1)} aria-label="first page" />
           <Pagination.Prev
             onClick={() => handlePagination(currentPage > 1 ? currentPage - 1 : 1)}
+            aria-label="prev page"
           />
-          <Pagination.Item active>{currentPage}</Pagination.Item>
-          <Pagination.Next onClick={() => handlePagination(currentPage + 1)} />
+          <Pagination.Item active aria-label="current page">
+            {currentPage}
+          </Pagination.Item>
+          <Pagination.Next
+            aria-label="next page"
+            onClick={() => handlePagination(currentPage + 1)}
+          />
         </Pagination>
       </div>
     </div>
