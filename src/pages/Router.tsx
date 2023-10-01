@@ -2,16 +2,21 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import App from '../components/App';
 
+import { withConnectedWallet } from '../hoc/withConnectedWallet';
+
 import Index from './Index';
 import Favourites from './Favourites';
+
+const IndexWithConnectedWallet = withConnectedWallet(Index);
+const FavouritesWithConnectedWallet = withConnectedWallet(Favourites);
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
     children: [
-      { index: true, element: <Index /> },
-      { path: 'favourites', element: <Favourites /> },
+      { index: true, element: <IndexWithConnectedWallet /> },
+      { path: 'favourites', element: <FavouritesWithConnectedWallet /> },
     ],
   },
 ]);
