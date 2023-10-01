@@ -12,9 +12,13 @@ import { useLocalStorage } from '../../../hooks/useLocalStorage';
 import BeerCard from '../../../components/ui/BeerCard';
 
 const GetRandomBeer = () => {
-  const [showBeerModal, setShowBeerModal] = useState(false);
   const [favourites, setFavourites] = useLocalStorage<number[]>('favouriteBeers', []);
+  const [_favouritesHashes, setFavouritesHashes] = useLocalStorage<{ id: number; hash: string }[]>(
+    'favouriteBeersHashes',
+    [],
+  );
 
+  const [showBeerModal, setShowBeerModal] = useState(false);
   const [beer, setBeer] = useState<Beer | null>(null);
 
   const { play } = useAudio('assets/beer-bottle-opening.mp3');
@@ -60,8 +64,9 @@ const GetRandomBeer = () => {
   const handleStarClick = (beer: Beer) => {
     if (favourites.includes(beer.id)) {
       setFavourites(prev => prev.filter(id => beer.id != id));
+      setFavouritesHashes(prev => prev.filter(bh => beer.id != bh.id));
     } else {
-      setFavourites(prev => [...prev, beer.id]);
+      setFavourites(prev => Array.from(new Set([...prev, beer.id])));
     }
   };
   return (

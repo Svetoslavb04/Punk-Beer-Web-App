@@ -19,14 +19,19 @@ const BeersList: FC<Props> = ({ search, page, perPage, ids }) => {
   const [beers] = useBeers(page, perPage, search, ids);
 
   const [favourites, setFavourites] = useLocalStorage<number[]>('favouriteBeers', []);
+  const [_favouritesHashes, setFavouritesHashes] = useLocalStorage<{ id: number; hash: string }[]>(
+    'favouriteBeersHashes',
+    [],
+  );
 
   const { play } = useAudio('assets/beer-bottle-opening.mp3');
 
-  const handleStarIconClick = (beer: Beer) => {
+  const handleStarIconClick = async (beer: Beer) => {
     if (favourites.includes(beer.id)) {
       setFavourites(prev => prev.filter(id => beer.id != id));
+      setFavouritesHashes(prev => prev.filter(bh => beer.id != bh.id));
     } else {
-      setFavourites(prev => [...prev, beer.id]);
+      setFavourites(prev => Array.from(new Set([...prev, beer.id])));
     }
   };
 
