@@ -1,13 +1,18 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
+import { WagmiConfig } from 'wagmi';
+import { config } from '../../config/wagmi/wagmi';
+
 import Header from '../../components/layout/Header';
 
 describe('Header', () => {
   it('should render nav links correctly', () => {
     render(
       <MemoryRouter initialEntries={['/']}>
-        <Header />
+        <WagmiConfig config={config}>
+          <Header />
+        </WagmiConfig>
       </MemoryRouter>,
     );
 
