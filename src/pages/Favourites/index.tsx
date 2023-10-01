@@ -1,48 +1,72 @@
+import { useEffect, useState } from 'react';
+
+import { useBeers } from '../../hooks/useBeers';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 
-import Pagination from 'react-bootstrap/Pagination';
-
 import BeersList from '../../components/shared/BeersList';
-import { useSearchParams } from 'react-router-dom';
-import { useBeers } from '../../hooks/useBeers';
+
+import { Beer } from '../../interfaces/Beer';
+
+import { hashAll } from '../../utils/crypto';
 
 const Favourites = () => {
-  const [searchParams, setSearchParams] = useSearchParams({
-    page: '1',
-    perPage: '3',
-  });
-
-  const currentPage = Number(searchParams.get('page')) || 1;
-  const currentPerPage = Number(searchParams.get('perPage')) || 3;
-
   const [favourites] = useLocalStorage<number[]>('favouriteBeers', []);
-  const [_beers, rawBeers] = useBeers(currentPage, currentPerPage, '', favourites);
+  const [favouritesHashes, setFavouritesHashes] = useLocalStorage<{ id: number; hash: string }[]>(
+    'favouriteBeersHashes',
+    [],
+  );
 
-  const handlePagination = (page: number) => {
-    setSearchParams(prev => {
-      prev.set('page', page.toString());
-      return prev;
-    });
-  };
+  const [beers, rawBeers] = useBeers(undefined, undefined, '', favourites);
+
+  const [changedBeers, setChangedBeers] = useState<Beer[]>([]);
+  const [unchangedBeers, setUnchangedBeers] = useState<Beer[]>([]);
+  console.log('render');
+
+  useEffect(() => {
+    async function getCurrentHashes() {
+      return (await hashAll(rawBeers)).map((hash, i) => ({
+        hash,
+        beer: beers[i],
+      }));
+    }
+
+    async function getChangedAndUnchanged() {
+      if (rawBeers.length === 0 || changedBeers.length > 0 || unchangedBeers.length > 0) {
+        return;
+      }
+
+      const currentBeerHashes = await getCurrentHashes();
+
+      const currentChangedBeers = currentBeerHashes.filter((currentHash, i) => {
+        const previousBeerHash = favouritesHashes.find(fh => fh.id === rawBeers[i].id)?.hash;
+        return currentHash.hash != previousBeerHash && previousBeerHash != undefined;
+      });
+
+      const currentUnchangedBeers = beers.filter(
+        b => !currentChangedBeers.some(cb => cb.beer.id === b.id),
+      );
+
+      setChangedBeers(currentChangedBeers.map(b => b.beer));
+      setUnchangedBeers(currentUnchangedBeers);
+
+      setFavouritesHashes(currentBeerHashes.map(br => ({ hash: br.hash, id: br.beer.id })));
+    }
+
+    getChangedAndUnchanged();
+  }, [beers, rawBeers, favouritesHashes, changedBeers, unchangedBeers, setFavouritesHashes]);
 
   return (
     <div className="container mt-4 flex-grow-1 d-flex flex-column">
-      <div className="row gy-4 gx-5 flex-grow-1 align-items-center">
-        <BeersList
-          page={Number(searchParams.get('page')) || 1}
-          perPage={Number(searchParams.get('perPage')) || 3}
-          ids={favourites}
-        />
-      </div>
-      <div id="beers-pagination" className="my-4 mx-auto">
-        <Pagination className="mb-0">
-          <Pagination.First onClick={() => handlePagination(1)} />
-          <Pagination.Prev
-            onClick={() => handlePagination(currentPage > 1 ? currentPage - 1 : 1)}
-          />
-          <Pagination.Item active>{currentPage}</Pagination.Item>
-          <Pagination.Next onClick={() => handlePagination(currentPage + 1)} />
-        </Pagination>
+      <h4>Changed Beers:</h4>
+      <p className="m-0">{changedBeers.map(b => b.name).join(', ')}</p>
+      <h4 className="mt-4">Unchanged Beers:</h4>
+      <p className="m-0 mb-4">{unchangedBeers.map(b => b.name).join(', ')}</p>
+      <div className="row gy-4 gx-5 flex-grow-1">
+        {favourites.length > 0 ? (
+          <BeersList ids={favourites} />
+        ) : (
+          <p className="fs-3 my-4 text-center">No favourite beers...</p>
+        )}
       </div>
     </div>
   );
