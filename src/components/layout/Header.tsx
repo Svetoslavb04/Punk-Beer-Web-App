@@ -34,7 +34,7 @@ const Header = () => {
       <Link to="/" className="fs-2 fw-light">
         Beans Love Beers
       </Link>
-      <div className="d-flex gap-5">
+      <div className="d-flex gap-4">
         <Button variant="secondary" onClick={handleConnectButtonClick}>
           {isConnected ? 'Disconnect' : 'Connect'} Wallet
         </Button>
