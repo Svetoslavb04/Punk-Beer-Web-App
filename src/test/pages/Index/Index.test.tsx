@@ -1,8 +1,8 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
-import { server } from '../mocks/server';
+import { server } from '../../mocks/server';
 
-import Index from '../../pages/Index';
+import Index from '../../../pages/Index';
 import { MemoryRouter } from 'react-router';
 
 beforeAll(() => {
