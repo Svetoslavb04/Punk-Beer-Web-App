@@ -51,7 +51,7 @@ const Favourites = () => {
   }, [beers, rawBeers, favouritesHashes, changedBeers, unchangedBeers, setFavouritesHashes]);
 
   return (
-    <div className="container mt-4 flex-grow-1 d-flex flex-column">
+    <div className="container my-4 flex-grow-1 d-flex flex-column">
       <h4>Changed Beers:</h4>
       <p className="m-0">{changedBeers.map(b => b.name).join(', ')}</p>
       <h4 className="mt-4">Unchanged Beers:</h4>
