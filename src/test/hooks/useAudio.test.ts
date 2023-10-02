@@ -26,7 +26,7 @@ describe('useAudio', () => {
   afterAll(() => server.close());
 
   it('should play audio only if not paused', async () => {
-    const { result } = renderHook(() => useAudio('assets/beer-bottle-opening.mp3'));
+    const { result } = renderHook(() => useAudio('assets/audio/beer-bottle-opening.mp3'));
 
     const playAudio = vi.spyOn(window.HTMLMediaElement.prototype, 'play');
 
@@ -37,7 +37,7 @@ describe('useAudio', () => {
   });
 
   it('should paused audio', async () => {
-    const { result } = renderHook(() => useAudio('assets/beer-bottle-opening.mp3'));
+    const { result } = renderHook(() => useAudio('assets/audio/beer-bottle-opening.mp3'));
 
     result.current.play();
     result.current.pause();

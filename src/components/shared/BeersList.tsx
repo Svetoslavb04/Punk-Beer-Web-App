@@ -20,7 +20,7 @@ const BeersList: FC<Props> = ({ search, page, perPage, ids }) => {
 
   const [favourites, setFavourites] = useLocalStorage<number[]>('favouriteBeers', []);
 
-  const { play } = useAudio('assets/beer-bottle-opening.mp3');
+  const { play } = useAudio('assets/audio/beer-bottle-opening.mp3');
 
   const handleStarIconClick = async (beer: Beer) => {
     if (favourites.includes(beer.id)) {

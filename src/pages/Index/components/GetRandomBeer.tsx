@@ -17,7 +17,7 @@ const GetRandomBeer = () => {
   const [showBeerModal, setShowBeerModal] = useState(false);
   const [beer, setBeer] = useState<Beer | null>(null);
 
-  const { play } = useAudio('assets/beer-bottle-opening.mp3');
+  const { play } = useAudio('assets/audio/beer-bottle-opening.mp3');
 
   useEffect(() => {
     const abortController = new AbortController();
