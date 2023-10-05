@@ -109,4 +109,14 @@ describe('Index', () => {
 
     expect(screen.getByLabelText('current page')).toHaveTextContent('1');
   });
+
+  it('should redirect to page 1 if page 0 is searched', async () => {
+    render(
+      <MemoryRouter initialEntries={['/?page=0&perPage=6']}>
+        <Index />
+      </MemoryRouter>,
+    );
+
+    expect(screen.getByLabelText('current page')).toHaveTextContent('1');
+  });
 });
