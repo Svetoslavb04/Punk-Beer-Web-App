@@ -18,9 +18,18 @@ const Index = () => {
     perPage: '6',
   });
 
+  const currentPage = Number(searchParams.get('page'));
+
   const beerNameInput = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    if (currentPage < 1) {
+      setSearchParams(prev => {
+        prev.set('page', '1');
+        return prev;
+      });
+    }
+
     if (beerNameInput.current) {
       beerNameInput.current.value = searchParams.get('beerName') || '';
     }
@@ -45,8 +54,6 @@ const Index = () => {
       return prev;
     });
   };
-
-  const currentPage = Number(searchParams.get('page'));
 
   return (
     <div className="container mt-4 flex-grow-1 d-flex flex-column">
